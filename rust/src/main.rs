@@ -188,7 +188,7 @@ fn main() -> bitcoincore_rpc::Result<()> {
     );
     println!("{}", output);
 
-    fs::write("out.txt", output)?;
+    fs::write("../out.txt", output)?;
 
     Ok(())
 }
