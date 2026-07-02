@@ -164,7 +164,7 @@ fn main() -> bitcoincore_rpc::Result<()> {
     let prev_txid = vin.previous_output.txid;
     let prev_vout = vin.previous_output.vout;
     let prev_tx = rpc.get_raw_transaction(&prev_txid, None)?;
-    let input_amount = prev_tx.output[prev_vout as usize].value.to_btc();
+    let input_amount = prev_tx.output[prev_vout as usize].value.to_btc() as i64;
     // println!("{}", input_amount);
     let fees = match tx.fee {
         Some(val) => -val.to_btc(),
