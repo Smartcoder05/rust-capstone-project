@@ -81,7 +81,7 @@ fn main() -> bitcoincore_rpc::Result<()> {
     )?;
 
     let miner_address = miner_rpc.get_new_address(Some("Mining Reward"), None)?;
-    // rpc.generate_to_address(101, miner_address.assume_checked_ref())?;
+    rpc.generate_to_address(101, miner_address.assume_checked_ref())?;
 
     // println!("{}", miner_rpc.get_balance(None, None)?);
     // Load Trader wallet and generate a new address
@@ -136,11 +136,11 @@ fn main() -> bitcoincore_rpc::Result<()> {
         //     None => 0.0
         //
         // };
-        let amount = output.value.to_btc(); 
+        let amount = output.value.to_btc();
         let address = match output.script_pub_key.address {
             Some(val) => val.assume_checked_ref().to_string(),
-            None => String::new()
-        }; 
+            None => String::new(),
+        };
         // if (amount - 20.0).abs() < 0.0001 {
         //     trader_amount = amount;
         //     trader_out_address = address;
@@ -158,7 +158,6 @@ fn main() -> bitcoincore_rpc::Result<()> {
             change = amount;
             change_address = address;
         }
-
     }
 
     let vin = &raw_tx.input[0];
@@ -167,10 +166,10 @@ fn main() -> bitcoincore_rpc::Result<()> {
     let prev_tx = rpc.get_raw_transaction(&prev_txid, None)?;
     let input_amount = prev_tx.output[prev_vout as usize].value.to_btc();
     // println!("{}", input_amount);
-    let fees =  match tx.fee {
+    let fees = match tx.fee {
         Some(val) => -val.to_btc(),
         None => 0.0,
-    }; 
+    };
     // println!("{}", trader_amount);
 
     // Write the data to ../out.txt in the specified format given in readme.md
