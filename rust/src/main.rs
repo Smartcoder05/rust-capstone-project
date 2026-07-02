@@ -81,7 +81,7 @@ fn main() -> bitcoincore_rpc::Result<()> {
     )?;
 
     let miner_address = miner_rpc.get_new_address(Some("Mining Reward"), None)?;
-    // rpc.generate_to_address(101, miner_address.assume_checked_ref())?;
+    rpc.generate_to_address(101, miner_address.assume_checked_ref())?;
 
     // println!("{}", miner_rpc.get_balance(None, None)?);
     // Load Trader wallet and generate a new address
