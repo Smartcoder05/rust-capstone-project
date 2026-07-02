@@ -86,7 +86,7 @@ fn main() -> bitcoincore_rpc::Result<()> {
 
     let miner_address = miner_rpc.get_new_address(Some("Mining Reward"), None)?;
     rpc.generate_to_address(101, miner_address.assume_checked_ref())?;
-    println!("{}", miner_rpc.get_balance(None, None)?); 
+    println!("{}", miner_rpc.get_balance(None, None)?);
 
     // Load Trader wallet and generate a new address
     let trader_rpc = Client::new(
@@ -130,12 +130,12 @@ fn main() -> bitcoincore_rpc::Result<()> {
     let mut change_address = String::new();
 
     for output in decode_tx.vout {
-       let amount = output.value.to_btc();
+        let amount = output.value.to_btc();
         let address = match output.script_pub_key.address {
             Some(val) => val.assume_checked_ref().to_string(),
             None => String::new(),
         };
-       if trader_address.assume_checked_ref().to_string() == address {
+        if trader_address.assume_checked_ref().to_string() == address {
             trader_amount = amount
         } else {
             change = amount;
