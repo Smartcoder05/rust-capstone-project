@@ -81,7 +81,7 @@ fn main() -> bitcoincore_rpc::Result<()> {
     )?;
 
     let miner_address = miner_rpc.get_new_address(Some("Mining Reward"), None)?;
-    rpc.generate_to_address(101, miner_address.assume_checked_ref())?;
+    // rpc.generate_to_address(101, miner_address.assume_checked_ref())?;
 
     // println!("{}", miner_rpc.get_balance(None, None)?);
     // Load Trader wallet and generate a new address
@@ -123,9 +123,9 @@ fn main() -> bitcoincore_rpc::Result<()> {
 
     let decode_tx = miner_rpc.decode_raw_transaction(&tx.hex, None)?;
     let raw_tx = miner_rpc.get_raw_transaction(&txid, None)?;
-    let mut trader_amount = 0.0;
+    let mut trader_amount = 0;
     let mut trader_out_address = String::new();
-    let mut change = 0.0;
+    let mut change = 0;
     let mut change_address = String::new();
 
     for output in decode_tx.vout {
@@ -136,7 +136,7 @@ fn main() -> bitcoincore_rpc::Result<()> {
         //     None => 0.0
         //
         // };
-        let amount = output.value.to_btc();
+        let amount = output.value.to_btc() as i64;
         let address = match output.script_pub_key.address {
             Some(val) => val.assume_checked_ref().to_string(),
             None => String::new(),
@@ -174,17 +174,17 @@ fn main() -> bitcoincore_rpc::Result<()> {
 
     // Write the data to ../out.txt in the specified format given in readme.md
     let output = format!(
-        "{:?}\n{:?}\n{:?}\n{:?}\n{:?}\n{:?}\n{:?}\n{:?}\n{:?}\n{:?}",
+        "{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}",
         &txid.to_string(),
-        miner_address.assume_checked_ref().to_string(),
+        miner_address.assume_checked_ref(),
         input_amount,
-        trader_address.assume_checked_ref().to_string(),
+        trader_address.assume_checked_ref(),
         trader_amount,
         change_address,
         change,
         fees,
         block.height,
-        block_hash.to_raw_hash().to_string()
+        block_hash.to_raw_hash()
     );
     println!("{}", output);
 
